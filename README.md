@@ -2,10 +2,10 @@
 ## Golang BigQuery Export Tool
 
 ### Mac Users
-- **Download the GoQu_Mac file located the the Mac_File directory.
+- **Download the GoQu_Mac file located the the Mac_File directory**.
 
 ### Windows Users
-- **Download the GoQu_Windows.exe file located in the Windows_File directory.
+- **Download the GoQu_Windows.exe file located in the Windows_File directory**.
 
 ![GoQu Image](./images/GoQu.png)
 
