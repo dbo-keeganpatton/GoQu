@@ -2,7 +2,7 @@
 ## Golang BigQuery Export Tool
 
 ### Mac Users
-- **Download the GoQu_Mac file located in release found [here](https://github.com/dbo-keeganpatton/GoQu/releases/tag/v0.1)**.
+- **Download the GoQu_Mac.app file located in release found [here](https://github.com/dbo-keeganpatton/GoQu/releases/tag/v0.1)**.
 
 ### Windows Users
 - **Download the GoQu_Windows.exe file located release found [here](https://github.com/dbo-keeganpatton/GoQu/releases/tag/v0.1)**.
