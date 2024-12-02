@@ -14,7 +14,7 @@ import (
 
 
 /* Accepts a *bigquery.Job struct as an argument and writes to a csv file. */
-func writeCsv(job *bigquery.Job) error {
+func WriteCsv(job *bigquery.Job) error {
 	
 	
 	// Get the Job first

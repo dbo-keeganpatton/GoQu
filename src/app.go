@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image/color"
 	"log"
-	"os"
 	
 	// Fyne
 	"fyne.io/fyne/v2"
@@ -17,13 +16,7 @@ import (
 	// UDF
 	"bq/bigQuery"
 	"bq/csvWriter"
-
 )
-
-
-
-
-
 
 
 /**************************  App Theme	**************************/
@@ -83,9 +76,7 @@ func main() {
 	myApp.Settings().SetTheme(&appTheme{}) 
 	myWindow := myApp.NewWindow("GoQu BigQuery Export Tool")
 	
-	/******************************
-			 Query Input
-	******************************/
+	/**********************  Query Input  ************************/
 	text := canvas.NewText("Go Query", color.White)
 	text.Alignment = fyne.TextAlignCenter
 	text.TextStyle = fyne.TextStyle{Bold: true}
@@ -100,14 +91,24 @@ func main() {
 	
 	query_input := container.NewVBox(input, widget.NewButton("Run", func() {
 
-		// Pass BQ API logic here
-		err := queryBasic(os.Stdout, ProjectID.Text, input.Text)
+		/*	First query is run with the UDF 
+			bigQuery/bigQuery.runQueryJob, this creates a query result struct
+			This 'result' is then passed as an argument to csvWriter/csvWriter.writeCsv
+		*/
+		
+		job, err := bigQuery.RunQueryJob( ProjectID.Text, input.Text )
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 		}
+		
+		
+		err = csvWriter.WriteCsv( job )
+		if err != nil {
+			fmt.Printf("Issue writing CSV: %v", err)
+		}
 
 		log.Println("Content was:", input.Text)
-
+		
 	
 	}))
 

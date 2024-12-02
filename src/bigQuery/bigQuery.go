@@ -1,4 +1,4 @@
-package bigquery
+package bigQuery
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 
 // Establishes a BigQuery client and executes a query string as input to return a BQ job.
-func runQueryJob(projectID string, query_string string) (*bigquery.Job, error) {
+func RunQueryJob(projectID string, query_string string) (*bigquery.Job, error) {
 	
 
 	ctx := context.Background()
