@@ -5,6 +5,7 @@ go 1.23.3
 require (
 	cloud.google.com/go/bigquery v1.64.0
 	fyne.io/fyne/v2 v2.5.2
+	golang.org/x/oauth2 v0.24.0
 	google.golang.org/api v0.209.0
 )
 
@@ -64,7 +65,6 @@ require (
 	golang.org/x/mobile v0.0.0-20231127183840-76ac6878050a // indirect
 	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/net v0.31.0 // indirect
-	golang.org/x/oauth2 v0.24.0 // indirect
 	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
