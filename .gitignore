@@ -4,6 +4,7 @@
 *.so
 *.dylib
 *old/
+*.sql
 
 /bin/
 /build/
