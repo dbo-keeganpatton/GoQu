@@ -73,12 +73,18 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 		
 		// Actual design for redirect url page.
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprintf(w, 
-		`<html>
-			<body>
-				<h1>Authentication Successful</h1>
-				<p>You can close this window now.</p>
-			</body>
+		fmt.Fprintf(w,
+		`<!DOCTYPE html>
+		<html lang="en">
+	
+		<body style="background-color: #3361AC";>
+			<h1 style="color:#E8AF30; font-family='Verdana'; text-align: center;"> Authentication Successful </h1>
+			<h2 style="color:white; font-family='Verdana'; text-align: center;"> 
+			Your query will write to a file called query_result.csv in your downloads folder.
+			You can close this window now. 
+			</h2>
+		</body>
+
 		</html>
 		`)
 		
