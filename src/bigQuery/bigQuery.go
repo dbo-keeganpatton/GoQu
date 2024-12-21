@@ -77,12 +77,12 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 		`<!DOCTYPE html>
 		<html lang="en">
 	
-		<body style="background-color: #3361AC";>
-			<h1 style="color:#E8AF30; font-family='Verdana'; text-align: center;"> Authentication Successful </h1>
-			<h2 style="color:white; font-family='Verdana'; text-align: center;"> 
-			Your query will write to a file called query_result.csv in your downloads folder.
-			You can close this window now. 
-			</h2>
+		<body style="background-color: #3361AC;">
+			<h1 style="color:#E8AF30; font-family='Courier New'; text-align: center;"> Authentication Successful </h1>
+			<h3 style="color:#E8AF30; font-family='Courier New'; text-align: center;">You can close this window now.</h3>
+			<p style="color:white; font-family='Courier New'; text-align: center;">Your query will write to a file called query_result.csv <br>
+			in your downloads folder.
+			</p>
 		</body>
 
 		</html>
