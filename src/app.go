@@ -74,7 +74,7 @@ func main() {
 	
 	myApp := app.New()
 	myApp.Settings().SetTheme(&appTheme{}) 
-	myWindow := myApp.NewWindow("GoQu BigQuery Export Tool")
+	myWindow := myApp.NewWindow("GoQuery BigQuery Export Tool")
 	
 	/**********************  Query Input  ************************/
 	text := canvas.NewText("Go Query", color.White)
@@ -88,31 +88,44 @@ func main() {
 	input.SetPlaceHolder("Write a Query")
 	
 	
+	progress := widget.NewProgressBar()
+	progress.Hide()
 	
-	query_input := container.NewVBox(input, widget.NewButton("Run", func() {
+	query_input := container.NewVBox(
+		input,
+		progress,
+		widget.NewButton("Run", func() {
+			progress.Show()
+			progress.SetValue(0)
 
 		/*	First query is run with the UDF 
 			bigQuery/bigQuery.runQueryJob, this creates a query result struct
 			This 'result' is then passed as an argument to csvWriter/csvWriter.writeCsv
 		*/
 		
-		job, err := bigQuery.RunQueryJob( ProjectID.Text, input.Text )
-		if err != nil {
-			fmt.Printf("Error: %v\n", err)
-		}
-		
-		
-		err = csvWriter.WriteCsv( job )
-		if err != nil {
-			fmt.Printf("Issue writing CSV: %v", err)
-		}
 
-		log.Println("Content was:", input.Text)
-		
-	
+		go func() {
+			job, err := bigQuery.RunQueryJob( ProjectID.Text, input.Text )
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+//				progress.Hide()
+				return
+			}
+
+			err = csvWriter.WriteCsv( job, func(p float64) {
+				progress.SetValue(p)
+			})
+			if err != nil {
+				fmt.Printf("Issue writing CSV: %v", err)
+			}
+			
+			progress.Hide()
+			log.Println("Content was:", input.Text)
+		}()		
 	}))
 
-	query_input.Resize(fyne.NewSize(100, 40))
+
+	query_input.Resize(fyne.NewSize(100, 200))
 	
 
 	content := container.NewVBox(
@@ -123,7 +136,7 @@ func main() {
 
 
 	myWindow.SetContent(content)
-	myWindow.Resize(fyne.NewSize(600, 400))
+	myWindow.Resize(fyne.NewSize(600, 500))
 	myWindow.ShowAndRun()
 }
 

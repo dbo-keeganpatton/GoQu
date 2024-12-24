@@ -76,7 +76,7 @@ func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 		fmt.Fprintf(w,
 		`<!DOCTYPE html>
 		<html lang="en">
-	
+		
 		<body style="background-color: #3361AC;">
 			<h1 style="color:#E8AF30; font-family='Courier New'; text-align: center;"> Authentication Successful </h1>
 			<h3 style="color:#E8AF30; font-family='Courier New'; text-align: center;">You can close this window now.</h3>

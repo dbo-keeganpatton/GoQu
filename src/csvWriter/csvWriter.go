@@ -13,16 +13,22 @@ import (
 
 
 
+type ProgressCallBack func(float64)
+
+
 /* Accepts a *bigquery.Job struct as an argument and writes to a csv file. */
-func WriteCsv(job *bigquery.Job) error {
+func WriteCsv(job *bigquery.Job, progressCb ProgressCallBack) error {
 	
 	
 	// Get the Job first
 	ctx := context.Background()
+
+
 	it, err := job.Read(ctx)
 	if err != nil {
 		return fmt.Errorf("failure to read job: %v", err)
 	}
+
 
 
 	homeDir, err := os.UserHomeDir()
@@ -33,8 +39,12 @@ func WriteCsv(job *bigquery.Job) error {
 
 	downloadPath := filepath.Join(homeDir, "Downloads", "query_result.csv")
 	file, err := os.Create(downloadPath)
-
+	if err != nil {
+		return fmt.Errorf("Error creating file: %v", err)
+	}
+	defer file.Close()
 	
+
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 		
@@ -49,9 +59,11 @@ func WriteCsv(job *bigquery.Job) error {
 	if err != nil {
 		log.Fatal("Error writing header:", err)
 	}
+	
 
 
 	// Main Iterator
+	var rowsWritten int64 = 0
 	for {
 		var row []bigquery.Value
 		err := it.Next(&row)
@@ -71,8 +83,16 @@ func WriteCsv(job *bigquery.Job) error {
 			return fmt.Errorf("error writing to csv: %v", err)
 		}
 
+
+		rowCount := it.TotalRows	
+		rowsWritten++
+		
+		if rowCount > 0 {
+			progress := float64(rowsWritten) / float64(rowCount)
+			progressCb(progress)
+		}
+		
 	}	
-	
 	
 	log.Println("Success")
 	return nil
