@@ -126,7 +126,7 @@ var (
 
 
 /****************************************************************
-    his sets the scope for the app on requested permissions
+    This sets the scope for the app on requested permissions
 ****************************************************************/
 func getOAuthConfig() *oauth2.Config {
 	once.Do(func() {
@@ -150,23 +150,34 @@ func getOAuthConfig() *oauth2.Config {
             Handles our actual job context and params
 ********************************************************************/
 func RunQueryJob(projectID string, query_string string) (*bigquery.Job, error) {
+	
+	
 	ctx := context.Background()
 	config := getOAuthConfig()
 	appToken := getTokenFromWeb(config)
+	
 	
 	client, err := bigquery.NewClient(
 		ctx, 
 		projectID, 
 		option.WithTokenSource(
 			config.TokenSource(ctx, appToken)))
+
 	if err != nil {
 		return nil, fmt.Errorf("bigquery.NewClient: %v", err)
 	}
 	defer client.Close()
 	
+
+
+	// Query options
 	q := client.Query(query_string)
 	q.Location = "US"
+	q.Priority = bigquery.BatchPriority
+	q.AllowLargeResults = true
+
 	
+
 	job, err := q.Run(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("query.Run: %v", err)
